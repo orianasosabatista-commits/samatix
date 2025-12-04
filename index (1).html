@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Asistencia</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen font-sans">
+  <div class="bg-white p-8 rounded-2xl shadow-lg w-80">
+    <h1 class="text-2xl font-semibold text-center mb-6 text-gray-800">Ingreso al Sistema</h1>
+    <form id="loginForm" class="flex flex-col gap-4">
+      <input type="text" id="usuario" placeholder="Usuario" class="border rounded-lg p-2 focus:ring-2 focus:ring-blue-400 outline-none">
+      <input type="password" id="password" placeholder="Contraseña" class="border rounded-lg p-2 focus:ring-2 focus:ring-blue-400 outline-none">
+      <button type="submit" class="bg-blue-500 text-white rounded-lg py-2 hover:bg-blue-600 transition">Ingresar</button>
+    </form>
+    <p id="error" class="text-red-500 text-sm text-center mt-3 hidden">Usuario o contraseña incorrectos</p>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const usuario = document.getElementById("usuario").value;
+      const password = document.getElementById("password").value;
+
+      if (usuario === "admin" && password === "admin") {
+        window.location.href = "reportes.html";
+      } else if (usuario === "preceptor" && password === "preceptor") {
+        window.location.href = "asistencia.html";
+      } else {
+        document.getElementById("error").classList.remove("hidden");
+      }
+    });
+  </script>
+</body>
+</html>

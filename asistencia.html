@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toma de Asistencia</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center font-sans">
+  <header class="w-full bg-blue-500 text-white text-center py-4 text-xl font-semibold shadow">
+    Sistema de Asistencia - Preceptor
+  </header>
+
+  <main class="w-full max-w-md bg-white rounded-2xl shadow-lg mt-8 p-6">
+    <h2 class="text-lg font-semibold text-gray-800 mb-4 text-center">Registrar Asistencia</h2>
+    <div class="mb-4">
+      <label for="fecha" class="block text-sm font-medium text-gray-700 mb-1">Fecha:</label>
+      <input type="date" id="fecha" class="border rounded-lg w-full p-2 focus:ring-2 focus:ring-blue-400 outline-none">
+    </div>
+
+    <div id="listaAlumnos" class="flex flex-col gap-3"></div>
+
+    <button id="guardarBtn" class="w-full mt-6 bg-blue-500 text-white rounded-lg py-2 hover:bg-blue-600 transition">
+      Guardar Asistencia
+    </button>
+    <button onclick="cerrarSesion()" class="w-full mt-3 bg-gray-300 text-gray-700 rounded-lg py-2 hover:bg-gray-400 transition">
+      Cerrar Sesión
+    </button>
+  </main>
+
+  <script>
+    const alumnos = ["Ruiz Díaz", "Batista", "Galarza", "Ledesma"];
+    const lista = document.getElementById("listaAlumnos");
+
+    alumnos.forEach(nombre => {
+      const div = document.createElement("div");
+      div.className = "border rounded-lg p-3";
+      div.innerHTML = `
+        <p class="font-medium mb-2">${nombre}</p>
+        <div class="flex justify-around text-sm">
+          <label class="flex items-center gap-1 text-green-600"><input type="radio" name="${nombre}" value="Presente"> Presente</label>
+          <label class="flex items-center gap-1 text-yellow-600"><input type="radio" name="${nombre}" value="Tarde"> Tarde</label>
+          <label class="flex items-center gap-1 text-red-600"><input type="radio" name="${nombre}" value="Ausente"> Ausente</label>
+        </div>`;
+      lista.appendChild(div);
+    });
+
+    document.getElementById("guardarBtn").addEventListener("click", () => {
+      const fecha = document.getElementById("fecha").value;
+      if (!fecha) {
+        alert("Por favor seleccioná una fecha.");
+        return;
+      }
+
+      const asistencia = alumnos.map(nombre => {
+        const radios = document.getElementsByName(nombre);
+        let estado = "";
+        radios.forEach(r => { if (r.checked) estado = r.value });
+        return { nombre, estado };
+      });
+
+      localStorage.setItem(fecha, JSON.stringify(asistencia));
+      alert("Asistencia guardada correctamente ✅");
+    });
+
+    function cerrarSesion() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
